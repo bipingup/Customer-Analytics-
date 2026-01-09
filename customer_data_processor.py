@@ -24,7 +24,7 @@ conf = {
 KAFKA_TOPIC = "customer_click_data"
 
 # MongoDB connection
-uri = "mongodb+srv://Bipin:Bipin123@cluster0.xtqiye4.mongodb.net/?appName=Cluster0"
+uri = os.getenv("MONGO_URI")
 
 def connect_mongo():
     client = MongoClient(uri, server_api=ServerApi('1'))
