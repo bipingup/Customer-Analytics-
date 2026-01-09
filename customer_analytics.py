@@ -19,16 +19,21 @@ load_dotenv()
 # MongoDB Connection
 @st.cache_resource
 def init_connection():
-    
-    uri = os.getenv("MONGO_URI") 
+   
+    uri = st.secrets.get("MONGO_URI") or os.getenv("MONGO_URI")
     
     if not uri:
-        st.error("MONGO_URI is not set in the environment variables.")
+        st.error("MONGO_URI not found!")
         st.stop()
-        
-    client = MongoClient(uri, server_api=ServerApi('1'))
-    return client
-
+    
+    clean_uri = uri.strip()
+    
+    try:
+        client = MongoClient(clean_uri, server_api=ServerApi('1'))
+        return client
+    except Exception as e:
+        st.error(f"MongoDB Configuration Error: {e}")
+        st.stop()
 # Get data from MongoDB
 
 def get_data():

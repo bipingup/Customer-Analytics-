@@ -4,3 +4,4 @@ pymongo == 3.12
 confluent-kafka
 plotly
 python-dotenv
+dnspython
