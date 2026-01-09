@@ -1,38 +1,41 @@
-# 📊 Euron Big DATA: Customer Click Analytics Pipeline
+# 📊 Euron Big DATA: Real-Time Customer Behavior Analytics
 
-This project is a real-time end-to-end data pipeline designed to capture, process, and visualize customer behavior. It tracks every "touch" or interaction a customer has on a platform and turns that raw data into actionable insights.
+This project is a complete end-to-end Data Engineering pipeline that captures real-time customer interactions (clicks, views, purchases) and visualizes them on a live dashboard.
 
-## 🚀 How It Works (Architecture)
+## 🔗 Live Project Links
+- **Producer App:** [https://customerpro.streamlit.app/](https://customerpro.streamlit.app/)
+- **Analytics Dashboard:** [https://customeranalytic.streamlit.app/](https://customeranalytic.streamlit.app/)
 
-The system follows a 3-tier architecture to ensure scalability and real-time processing:
+## 🚀 The Architecture (How it Works)
 
-1. **Producer (Data Collection):** - A Streamlit-based interface (Producer App) simulates customer actions like `view_product`, `add_to_cart`, etc.
-   - Every interaction is instantly sent to a **Confluent Kafka** topic.
+The pipeline is built using the **K-M-S Stack** (Kafka, MongoDB, Streamlit):
+
+1. **Producer (Data Generation):** - A dedicated Streamlit interface where users can simulate customer actions (e.g., viewing a laptop, adding a smartwatch to the cart).
+   - Every "send data" click triggers a message sent to a **Confluent Kafka Cloud** topic.
    
 2. **Processor (Data Ingestion):**
-   - A Kafka Consumer (Processor) listens to the topic in real-time.
-   - It fetches the messages and stores them securely in a **MongoDB Atlas** collection named `click_data`.
+   - A Python-based Kafka Consumer (Processor) runs in the background.
+   - It listens for incoming events on the Kafka topic and stores them in a **MongoDB Atlas** NoSQL database for persistence.
 
 3. **Analytics Dashboard (Visualization):**
-   - A final Streamlit dashboard connects to MongoDB to fetch the stored events.
-   - It provides visual insights such as Daily Activity Trends, Product Distribution, and Top Active Users.
+   - Another Streamlit application that acts as the frontend.
+   - It fetches real-time data from MongoDB and displays Key Metrics (Total Users, Activities) and Charts (Activity Timelines, Product Distribution).
 
 ## 🛠️ Tech Stack
-- **Frontend:** Streamlit (for both Producer and Analytics Dashboard)
-- **Message Broker:** Confluent Kafka (Cloud)
-- **Database:** MongoDB Atlas (NoSQL)
-- **Data Handling:** Pandas, Python-Dotenv
-- **Visualization:** Plotly Express
+- **Language:** Python 3.11
+- **Message Broker:** Confluent Kafka (Cloud-native)
+- **Database:** MongoDB Atlas
+- **Visualization:** Plotly Express & Streamlit
+- **Security:** Managed via Streamlit Secrets (for Cloud) and `.env` (for Local)
 
-## 📂 Project Structure
-- `customer_data_producer.py`: The UI to generate and send customer events to Kafka.
-- `customer_data_processor.py`: Backend script that moves data from Kafka to MongoDB.
-- `customer_analytics.py`: The main dashboard for behavior analysis.
-- `requirements.txt`: List of all Python dependencies.
+## 📂 File Structure
+- `customer_data_producer.py`: The data entry UI (Producer).
+- `customer_data_processor.py`: The bridge between Kafka and MongoDB.
+- `customer_analytics.py`: The main analytics dashboard.
+- `requirements.txt`: Python dependencies (including `dnspython` for MongoDB SRV support).
 
-## ⚙️ Setup & Installation
+## ⚙️ Local Setup Instructions
 
-1. **Clone the repository:**
+1. **Clone the repo:**
    ```bash
    git clone [https://github.com/bipingup/Customer-Analytics-.git](https://github.com/bipingup/Customer-Analytics-.git)
-   cd Customer-Analytics-
